@@ -8,6 +8,7 @@ const authRouter = require('./router/auth-router')
 const productRouter = require('./router/product-router')
 const orderRouter = require('./router/order-router')
 const categoryRouter = require('./router/category-router')
+const contactRouter = require('./router/contact-router')
 const errorMiddleware = require('./middlewares/error-middleware')
 
 const PORT = process.env.PORT || 8000
@@ -16,18 +17,17 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://chickenbreast-front.vercel.app']
+    origin: ['http://localhost:3000',
+             'http://chickenbreast-front.vercel.app', 'https://chickenbreast-front.vercel.app',
+             'http://chickenbreast.pp.ua', 'https://chickenbreast.pp.ua']
 }));
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/auth/', authRouter)
 app.use('/products/', productRouter)
 app.use('/orders/', orderRouter)
 app.use('/category/', categoryRouter)
+app.use('/contact/', contactRouter)
 app.use(errorMiddleware)
-
-app.get('/', (req, res) => {
-    res.send('Test Route')
-})
 
 const bootstrap = async () => {
     try {
@@ -43,5 +43,3 @@ const bootstrap = async () => {
 }
 
 bootstrap()
-
-module.exports = app
