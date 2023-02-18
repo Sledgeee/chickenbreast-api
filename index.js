@@ -37,3 +37,5 @@ const bootstrap = async () => {
 }
 
 bootstrap()
+
+module.exports = app()
