@@ -38,4 +38,4 @@ const bootstrap = async () => {
 
 bootstrap()
 
-module.exports = app()
+module.exports = app
