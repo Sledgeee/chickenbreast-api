@@ -9,6 +9,7 @@ const productRouter = require('./router/product-router')
 const orderRouter = require('./router/order-router')
 const categoryRouter = require('./router/category-router')
 const contactRouter = require('./router/contact-router')
+const recipeRouter = require('./router/recipe-router')
 const errorMiddleware = require('./middlewares/error-middleware')
 
 const PORT = process.env.PORT || 8000
@@ -27,6 +28,7 @@ app.use('/products/', productRouter)
 app.use('/orders/', orderRouter)
 app.use('/category/', categoryRouter)
 app.use('/contact/', contactRouter)
+app.use('/recipes/', recipeRouter)
 app.use(errorMiddleware)
 
 const bootstrap = async () => {
