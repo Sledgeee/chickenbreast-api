@@ -23,6 +23,10 @@ app.use('/orders', orderRouter)
 app.use('/category', categoryRouter)
 app.use(errorMiddleware)
 
+app.get('/', (req, res) => {
+    res.send('Test Route')
+})
+
 const bootstrap = async () => {
     try {
         mongoose.set('strictQuery', true)
