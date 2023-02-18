@@ -15,7 +15,9 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://chickenbreast-front.vercel.app']
+}));
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/auth/', authRouter)
 app.use('/products/', productRouter)
