@@ -8,11 +8,6 @@ const OrderSchema = new Schema({
     productsQuantity: { type: Number, required: true },
     moneyAmount: { type: Number, required: true },
     address: { type: String, required: true },
-    status: {
-        type: String,
-        enum: ['Опрацьовується', 'Опрацьовано системою', 'Опрацьовано менеджером', 'Комплектується', 'Доставка', 'Доставлено', 'Виконано'],
-        required: true
-    },
     products: [{
         type: Schema.Types.ObjectId,
         ref: 'Product'
