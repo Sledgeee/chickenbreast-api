@@ -29,7 +29,7 @@ const renderOrderTemplate = (orderId, products) => `
 														Ідентифікатор вашого замовлення: ${orderId}
 													</p>
                                                     <p style='margin-top:0;color:#74787e;font-size:16px;line-height:1.5em'>
-														Інформація про замовлення:
+														Список товарів із замовлення:
 													</p>
                                                     <table style="border: 1px solid #000; text-align: center;">
 												        <thead>
@@ -42,26 +42,31 @@ const renderOrderTemplate = (orderId, products) => `
 												        	</tr>
 												        </thead>
 												        <tbody>
-												        	${products.map((value) => (
-                                                                `<tr style="border: 1px solid #000">
-												        			<td style="border: 1px solid #000">
-												        				<img
-												        					width="150"
-												        					height="100"
-												        					src="${API_URL}${value.product.image}"
-												        					alt="${value.product.name}"
-												        				/>
-												        			</td>
-												        			<td style="border: 1px solid #000">${value.product.name}</td>
-												        			<td style="border: 1px solid #000">
-												        				<span>${value.quantity}</span>
-												        			</td>
-												        			<td style="border: 1px solid #000">${value.product.price}₴</td>
-                                                                     <td style="border: 1px solid #000">
-												        				<span>${value.totalSum}₴</span>
-												        			</td>
-												        		</tr>`
-												        	))}
+												        	${(() => {
+                                                                let rows = ''
+                                                                products.forEach((value) => (
+                                                                        rows +=
+                                                                        `<tr style="border: 1px solid #000">
+												        			         <td style="border: 1px solid #000">
+												        				        <img
+												        				        	width="150"
+												        				        	height="100"
+												        				        	src="${API_URL}${value.product.image}"
+												        				        	alt="${value.product.name}"
+												        				        />
+												        			         </td>
+    												        			     <td style="border: 1px solid #000">${value.product.name}</td>
+    												        			     <td style="border: 1px solid #000">
+    												        			     	<span>${value.quantity}</span>
+    												        			     </td>
+    												        			     <td style="border: 1px solid #000">${value.product.price}₴</td>
+                                                                                 <td style="border: 1px solid #000">
+    												        			     	<span>${value.totalSum}₴</span>
+    												        			     </td>
+												        		         </tr>`
+                                                                         ))
+                                                                return rows
+                                                            })()}
 												        </tbody>
 											         </table>
 													<table style='margin-top:25px;padding-top:25px;border-top:1px solid #edeff2'>
