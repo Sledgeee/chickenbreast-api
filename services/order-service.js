@@ -10,7 +10,7 @@ class OrderService {
     }
 
     async createOne(body) {
-        return (await OrderModel.create({ ...body, status: 'Опрацьовується' }))
+        return (await OrderModel.create(body))
     }
 }
 

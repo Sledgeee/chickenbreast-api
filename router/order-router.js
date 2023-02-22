@@ -9,9 +9,12 @@ orderRouter.post('/',
                  body('firstName').notEmpty(),
                  body('lastName').notEmpty(),
                  body('email').isEmail(),
-                 body('phone').notEmpty(),
+                 body('phone').isMobilePhone('uk-UA'),
+                 body('city').isString(),
+                 body('address').isString(),
                  body('productsQuantity').isNumeric(),
-                 body('address').notEmpty(),
+                 body('moneyAmount').isNumeric(),
+                 body('items').isArray(),
                  orderController.createOne)
 
 module.exports = orderRouter

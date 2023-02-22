@@ -1,4 +1,5 @@
 const orderService = require('../services/order-service')
+const mailService = require('../services/mail-service')
 const {validationResult} = require("express-validator")
 const ApiError = require('../exceptions/api-error')
 
@@ -29,6 +30,8 @@ class OrderController {
                 return next(ApiError.BadRequest('Validation error', errors.array()))
             }
             const order = await orderService.createOne(req.body)
+            const { _id, items } = order
+            new Promise(() => mailService.sendOrderCreatedMail(req.body.email, _id, items)).catch(e => console.log(e))
             return res.json(order)
         } catch (e) {
             next(e)
