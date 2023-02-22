@@ -48,8 +48,8 @@ const renderOrderTemplate = (orderId, products) => `
 												        				<img
 												        					width="150"
 												        					height="100"
-												        					src="${value.product.image}"
-												        					alt="${API_URL}${value.product.name}"
+												        					src="${API_URL}${value.product.image}"
+												        					alt="${value.product.name}"
 												        				/>
 												        			</td>
 												        			<td style="border: 1px solid #000">${value.product.name}</td>
