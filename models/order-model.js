@@ -20,7 +20,7 @@ const OrderSchema = new Schema({
         quantity: { type: Number, required: true },
         totalSum: { type: Number, required: true }
     }],
-    status: { type: String, enum: ['Створене', 'Оброблене менеджером', 'Виконане', 'Відмінене'], default: 'Створене' }
+    status: { type: String, enum: ['Створене', 'Оброблене менеджером', 'Виконане', 'Скасоване'], default: 'Створене' }
 }, { timestamps: true, versionKey: false })
 
 module.exports = model('Order', OrderSchema)
