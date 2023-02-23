@@ -5,6 +5,6 @@ const LoginAttemptSchema = new Schema({
     username: { type: String, required: true },
     otp: { type: Number, required: true },
     isMagic: { type: Boolean, required: true }
-}, { timestamps: { createdAt: true, updatedAt: false } })
+}, { timestamps: { createdAt: true, updatedAt: false }, versionKey: false })
 
 module.exports = model('LoginAttempt', LoginAttemptSchema)

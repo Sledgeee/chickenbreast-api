@@ -20,6 +20,8 @@ const ProductSchema = new Schema({
     price: { type: Number, required: true },
     image: { type: String, required: true },
     category: { type: Schema.Types.ObjectId, ref: 'Category' }
+}, {
+    versionKey: false
 })
 
 module.exports = model('Product', ProductSchema)

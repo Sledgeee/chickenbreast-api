@@ -21,6 +21,6 @@ const OrderSchema = new Schema({
         totalSum: { type: Number, required: true }
     }],
     status: { type: String, enum: ['Створене', 'Оброблене менеджером', 'Виконане', 'Відмінене'], default: 'Створене' }
-}, { timestamps: true })
+}, { timestamps: true, versionKey: false })
 
 module.exports = model('Order', OrderSchema)

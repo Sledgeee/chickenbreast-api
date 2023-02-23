@@ -6,6 +6,8 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     }]
+}, {
+    versionKey: false
 })
 
 module.exports = model('Department', DepartmentSchema)
