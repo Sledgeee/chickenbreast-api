@@ -12,6 +12,7 @@ const contactRouter = require('./router/contact-router')
 const departmentRouter = require('./router/department-router')
 const adminRouter = require("./router/admin-router")
 const errorMiddleware = require('./middlewares/error-middleware')
+const axios = require("axios");
 
 const PORT = process.env.PORT || 8000
 const app = express()
@@ -30,6 +31,15 @@ app.use('/admins/', adminRouter)
 app.use(errorMiddleware)
 
 app.get('/', (req, res) => { res.send('ok') })
+app.post('/__space/v0/actions', (req, res) => {
+    const event = req.body.event
+
+    if (event.id === "ping") {
+        axios.post('https://chickenbot-1-h5237689.deta.app/ping').catch(e => console.log(e))
+        return res.send("pong")
+    }
+    res.sendStatus(200)
+})
 
 const bootstrap = async () => {
     try {

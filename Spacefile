@@ -7,3 +7,9 @@ micros:
     primary: true
     public_routes:
       - "/*"
+    actions:
+      - id: "ping"
+        name: "Ping"
+        description: "Ping Api and Bot"
+        trigger: "schedule"
+        default_interval: "0/1 * * * *"
