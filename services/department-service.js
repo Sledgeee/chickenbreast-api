@@ -14,7 +14,7 @@ class DepartmentService {
     }
 
     async updateOne(id, values) {
-        return (await DepartmentModel.updateOne({ '_id': id }, { $push: { addresses: values } }))
+        return (await DepartmentModel.updateOne({ '_id': id }, { $set: { addresses: values } }))
     }
 }
 

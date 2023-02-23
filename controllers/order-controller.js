@@ -37,6 +37,40 @@ class OrderController {
             next(e)
         }
     }
+
+    async cancelOne(req, res, next) {
+        try {
+            const { id } = req.params
+            const result = await orderService.cancelOne(id)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteOne(req, res, next) {
+        try {
+            const { id } = req.params
+            const result = await orderService.deleteOne(id)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteMany(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+            const { ids } = req.body
+            const result = await orderService.deleteMany(ids)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new OrderController()

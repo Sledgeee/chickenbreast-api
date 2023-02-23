@@ -12,6 +12,18 @@ class ProductService {
     async createOne(body) {
         return (await ProductModel.create(body))        
     }
+
+    async updateOne(id, body) {
+        return (await ProductModel.updateOne({ _id: id }, { ...body }))
+    }
+
+    async deleteOne(id) {
+        return (await ProductModel.deleteOne({ _id: id }))
+    }
+
+    async deleteMany(ids) {
+        return (await ProductModel.deleteMany({ id: { $in: { ids } } }))
+    }
 }
 
 module.exports = new ProductService()

@@ -16,5 +16,10 @@ orderRouter.post('/',
                  body('moneyAmount').isNumeric(),
                  body('items').isArray(),
                  orderController.createOne)
+orderRouter.put('/cancel/:id', orderController.cancelOne)
+orderRouter.delete('/:id', orderController.deleteOne)
+orderRouter.post('/bulk-delete',
+                 body('ids').isArray(),
+                 orderController.deleteMany)
 
 module.exports = orderRouter

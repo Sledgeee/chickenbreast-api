@@ -26,5 +26,10 @@ productRouter.post('/',
                    body('image').notEmpty(),
                    body('category').notEmpty(),
                    productController.createOne)
+productRouter.put('/:id', productController.updateOne)
+productRouter.delete('/:id', productController.deleteOne)
+productRouter.post('/bulk-delete',
+                   body('ids').isArray(),
+                   productController.deleteMany)
 
 module.exports = productRouter

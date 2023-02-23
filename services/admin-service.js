@@ -6,9 +6,7 @@ const ApiError = require('../exceptions/api-error')
 const dayjs = require('dayjs')
 const utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
-const axios = require('axios')
 const { Telegraf } = require('telegraf')
-const {ObjectId} = require("mongodb");
 
 const bot = new Telegraf(process.env.TELEGRAM_API_KEY)
 
@@ -150,6 +148,22 @@ class AdminService {
             otp,
             isMagic: true
         })
+    }
+
+    async getAll() {
+        return await AdminModel.find({})
+    }
+
+    async getOne(id) {
+        return await AdminModel.findById(id)
+    }
+
+    async deleteOne(id) {
+        return await AdminModel.deleteOne({ _id: id, role: "Manager" })
+    }
+
+    async deleteMany(ids) {
+        return await AdminModel.deleteMany({ _id: { $in: ids }, role: "Manager" })
     }
 }
 

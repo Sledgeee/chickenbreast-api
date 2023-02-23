@@ -12,6 +12,14 @@ class CategoryService {
     async createOne(body) {
         return (await CategoryModel.create(body))
     }
+
+    async deleteOne(id) {
+        return (await CategoryModel.deleteOne({ _id: id }))
+    }
+
+    async deleteMany(ids) {
+        return (await CategoryModel.deleteMany({ id: { $in: { ids } } }))
+    }
 }
 
 module.exports = new CategoryService()

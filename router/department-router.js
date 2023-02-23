@@ -9,7 +9,7 @@ departmentRouter.post('/',
                  body('city').notEmpty(),
                  body('addresses').isArray(),
                  departmentController.createOne)
-departmentRouter.patch('/:id',
+departmentRouter.put('/:id',
                       body('addresses').isArray(),
                       departmentController.updateOne)
 

@@ -34,6 +34,40 @@ class ProductController {
             next(e)
         }
     }
+
+    async updateOne(req, res, next) {
+        try {
+            const { id } = req.params
+            const product = await productService.updateOne(id, req.body)
+            return res.send(product)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteOne(req, res, next) {
+        try {
+            const { id } = req.params
+            const result = await productService.deleteOne(id)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteMany(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+            const { ids } = req.body
+            const result = await productService.deleteMany(ids)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new ProductController()

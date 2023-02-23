@@ -10,6 +10,7 @@ const orderRouter = require('./router/order-router')
 const categoryRouter = require('./router/category-router')
 const contactRouter = require('./router/contact-router')
 const departmentRouter = require('./router/department-router')
+const adminRouter = require("./router/admin-router")
 const errorMiddleware = require('./middlewares/error-middleware')
 
 const PORT = process.env.PORT || 8000
@@ -25,6 +26,7 @@ app.use('/orders/', orderRouter)
 app.use('/category/', categoryRouter)
 app.use('/contact/', contactRouter)
 app.use('/departments/', departmentRouter)
+app.use('/admins/', adminRouter)
 app.use(errorMiddleware)
 
 app.get('/', (req, res) => { res.send('ok') })

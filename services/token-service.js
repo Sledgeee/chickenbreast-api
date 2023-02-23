@@ -38,7 +38,7 @@ class TokenService {
     }
 
     async findToken(refreshToken) {
-        return (await tokenModel.findOne({ refreshToken }))
+        return (await TokenModel.findOne({ refreshToken }))
     }
 }
 

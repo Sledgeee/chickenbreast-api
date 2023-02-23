@@ -12,6 +12,18 @@ class OrderService {
     async createOne(body) {
         return (await OrderModel.create(body))
     }
+
+    async cancelOne(id) {
+        return (await OrderModel.updateOne({ _id: id }, { $set: { status: 'Відмінене' } }))
+    }
+
+    async deleteOne(id) {
+        return (await OrderModel.deleteOne({ _id: id }))
+    }
+
+    async deleteMany(ids) {
+        return (await OrderModel.deleteMany({ id: { $in: { ids } } }))
+    }
 }
 
 module.exports = new OrderService()

@@ -24,6 +24,30 @@ class ContactController {
             next(e)
         }
     }
+
+    async deleteOneFeedback(req, res, next) {
+        try {
+            const { id } = req.params
+            const result = await contactService.deleteOneFeedback(id)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteManyFeedbacks(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+            const { ids } = req.body
+            const result = await contactService.deleteManyFeedbacks(ids)
+            return res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 module.exports = new ContactController()
