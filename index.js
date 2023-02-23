@@ -19,7 +19,10 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:3002', 'https://chickenbreast.pp.ua', 'https://chickenbot-1-h5237689.deta.app'] }))
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:3000', 'http://localhost:3002', 'https://chickenbreast.pp.ua', 'https://chickenbot-1-h5237689.deta.app']
+}))
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/auth/', authRouter)
 app.use('/products/', productRouter)
