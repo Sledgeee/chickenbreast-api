@@ -10,8 +10,8 @@ contactRouter.post('/feedback',
                    body('subject').notEmpty(),
                    body('message').notEmpty(),
                    contactController.createFeedback)
-contactRouter.delete('/:id', contactController.deleteOneFeedback)
-contactRouter.post('/bulk-delete',
+contactRouter.delete('/feedbacks/:id', contactController.deleteOneFeedback)
+contactRouter.post('/feedbacks/bulk-delete',
                     body('ids').isArray(),
                     contactController.deleteManyFeedbacks)
 

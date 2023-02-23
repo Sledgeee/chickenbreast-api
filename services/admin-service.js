@@ -110,12 +110,12 @@ class AdminService {
         if (!refreshToken) {
             throw ApiError.UnauthorizedError()
         }
-        const userData = tokenService.validateRefreshToken(refreshToken)
+        const adminData = tokenService.validateRefreshToken(refreshToken)
         const tokenFromDb = await tokenService.findToken(refreshToken)
-        if (!userData || !tokenFromDb) {
+        if (!adminData || !tokenFromDb) {
             throw ApiError.UnauthorizedError()
         }
-        const { _id, userId, username } = await AdminModel.findById(userData.id)
+        const { _id, userId, username } = await AdminModel.findOne({ userId: adminData.userId })
         const tokens = tokenService.generateTokens({ userId, username })
         await tokenService.saveToken(_id, tokens.refreshToken)
         return { ...tokens, admin: { userId, username } }
