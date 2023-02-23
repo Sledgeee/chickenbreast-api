@@ -20,6 +20,7 @@ class AdminService {
     }
 
     async login(username) {
+        if (!username) return { success: false }
         const admin = await AdminModel.findOne({ username })
         if (admin) {
             await LoginAttemptModel.deleteMany({ userId: admin.userId })
@@ -31,12 +32,15 @@ class AdminService {
                 isMagic: false
             })
             new Promise(() => bot.telegram.sendMessage(admin.userId, String(otp))).catch(e => console.log(e))
-            return { accepted: true, userId: admin.userId, attemptId: loginAttempt.id }
+            return { accepted: true, attemptId: loginAttempt.id }
         }
         return { accepted: false }
     }
 
     async checkOtp(id, otp) {
+        if (!id || !otp) {
+            return { success: false }
+        }
         const attempt = await LoginAttemptModel.findOne({ _id: id, otp })
         if (attempt) {
             await LoginAttemptModel.deleteOne({ _id: id, otp })

@@ -2,8 +2,9 @@ const Router = require('express').Router
 const orderController = require('../controllers/order-controller')
 const orderRouter = new Router()
 const { body } = require('express-validator')
+const authMiddleware = require('../middlewares/auth-middleware')
 
-orderRouter.get('/', orderController.getAll)
+orderRouter.get('/', authMiddleware, orderController.getAll)
 orderRouter.get('/:id', orderController.getOne)
 orderRouter.post('/',
                  body('firstName').notEmpty(),
