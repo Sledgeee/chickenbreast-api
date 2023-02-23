@@ -1,4 +1,4 @@
-const userService = require('../services/user-service')
+const adminService = require('../services/admin-service')
 const {validationResult} = require("express-validator");
 const ApiError = require('../exceptions/api-error')
 
@@ -9,9 +9,8 @@ class AuthController {
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation error', errors.array()))
             }
-            const { email, password } = req.body
-            const userData = await userService.register(email, password)
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+            const { userId, username } = req.body
+            const userData = await adminService.register(userId, username)
             return res.json(userData)
         } catch (e) {
             next(e)
@@ -20,10 +19,30 @@ class AuthController {
 
     async login(req, res, next) {
         try {
-            const { email, password } = req.body
-            const userData = await userService.login(email, password)
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
-            return res.json(userData)
+            const { username } = req.body
+            const data = await adminService.login(username)
+            return res.send(data)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async checkOtp(req, res, next) {
+        try {
+            const { id, otp } = req.body
+            const data = await adminService.checkOtp(id, otp)
+            return res.json(data)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async magicLogin(req, res, next) {
+        try {
+            const { userId, username, hash, isMagic } = req.body
+            const data = await adminService.magicLogin(userId, username, hash, isMagic)
+            res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+            return res.json(data)
         } catch (e) {
             next(e)
         }
@@ -32,7 +51,7 @@ class AuthController {
     async logout(req, res, next) {
         try {
             const { refreshToken } = req.cookies
-            await userService.logout(refreshToken)
+            await adminService.logout(refreshToken)
             res.clearCookie('refreshToken')
             return res.status(200)
         } catch (e) {
@@ -43,9 +62,59 @@ class AuthController {
     async refresh(req, res, next) {
         try {
             const { refreshToken } = req.cookies
-            const userData = await userService.refresh(refreshToken)
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
-            return res.json(userData)
+            const data = await adminService.refresh(refreshToken)
+            res.cookie('refreshToken', data.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+            return res.json(data)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async hasRights(req, res, next) {
+        try {
+            const { userId } = req.params
+            const isAdmin = await adminService.hasRights(userId)
+            return res.send({ result: isAdmin })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async hasRequest(req, res, next) {
+        try {
+            const { userId } = req.params
+            const hasRequest = await adminService.hasRequest(userId)
+            return res.send({ result: hasRequest })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async createRequest(req, res, next) {
+        try {
+            const { userId, username } = req.body
+            const request = await adminService.createRequest(userId, username)
+            return res.send(request)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteRequest(req, res, next) {
+        try {
+            const { userId } = req.params
+            await adminService.deleteRequest(userId)
+            return res.json({ 'status': 'Deleted' })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async createMagicLink(req, res, next) {
+        try {
+            const { userId, username, otp } = req.body
+            const attempt = await adminService.createMagicLink(userId, username, otp)
+            return res.send(attempt)
         } catch (e) {
             next(e)
         }

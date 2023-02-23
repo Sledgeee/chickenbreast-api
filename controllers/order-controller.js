@@ -31,7 +31,7 @@ class OrderController {
             }
             const order = await orderService.createOne(req.body)
             const { _id, items } = order
-            new Promise(() => mailService.sendOrderCreatedMail(req.body.email, _id, items)).catch(e => console.log(e))
+            await mailService.sendOrderCreatedMail(req.body.email, _id, items)
             return res.json(order)
         } catch (e) {
             next(e)
