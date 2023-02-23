@@ -62,9 +62,8 @@ class AdminService {
         return { success: false }
     }
 
-    async magicLogin(userId, username, hash, isMagic) {
+    async magicLogin(userId, username, hash, otp, isMagic) {
         const now = dayjs.utc()
-        const otp = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000
         const attempt = await LoginAttemptModel.findOne({
             _id: hash,
             userId,
@@ -151,19 +150,19 @@ class AdminService {
     }
 
     async getAll() {
-        return await AdminModel.find({})
+        return (await AdminModel.find({}))
     }
 
     async getOne(id) {
-        return await AdminModel.findById(id)
+        return (await AdminModel.findById(id))
     }
 
     async deleteOne(id) {
-        return await AdminModel.deleteOne({ _id: id, role: "Manager" })
+        return (await AdminModel.deleteOne({ _id: id, role: "Manager" }))
     }
 
     async deleteMany(ids) {
-        return await AdminModel.deleteMany({ _id: { $in: ids }, role: "Manager" })
+        return (await AdminModel.deleteMany({ _id: { $in: ids }, role: "Manager" }))
     }
 }
 

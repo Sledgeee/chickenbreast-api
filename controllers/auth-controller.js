@@ -39,8 +39,8 @@ class AuthController {
 
     async magicLogin(req, res, next) {
         try {
-            const { userId, username, hash, isMagic } = req.body
-            const data = await adminService.magicLogin(userId, username, hash, isMagic)
+            const { userId, username, hash, otp, isMagic } = req.body
+            const data = await adminService.magicLogin(userId, username, hash, otp, isMagic)
             res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
             return res.json(data)
         } catch (e) {
