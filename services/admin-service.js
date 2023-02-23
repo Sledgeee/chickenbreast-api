@@ -116,9 +116,14 @@ class AdminService {
             throw ApiError.UnauthorizedError()
         }
         const { _id, userId, username } = await AdminModel.findOne({ userId: adminData.userId })
-        const tokens = tokenService.generateTokens({ userId, username })
+        let userPhoto = "/assets/images/avatars/avatar_default.jpg"
+        const profilePhotos = await bot.telegram.getUserProfilePhotos(userId)
+        if (profilePhotos.total_count > 0) {
+            userPhoto = await bot.telegram.getFileLink(profilePhotos.photos[0][0].file_id)
+        }
+        const tokens = tokenService.generateTokens({ userId, username, userPhoto })
         await tokenService.saveToken(_id, tokens.refreshToken)
-        return { ...tokens, admin: { userId, username } }
+        return { ...tokens, admin: { userId, username, pic: userPhoto } }
     }
 
     async hasRights(userId) {
