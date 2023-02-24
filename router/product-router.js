@@ -2,10 +2,12 @@ const Router = require('express').Router
 const productController = require('../controllers/product-controller')
 const productRouter = new Router()
 const { body } = require('express-validator')
+const authMiddleware = require('../middlewares/auth-middleware')
 
 productRouter.get('/', productController.getAll)
 productRouter.get('/:id', productController.getOne)
 productRouter.post('/',
+                   authMiddleware,
                    body('name').notEmpty(),
                    body('servingSize').notEmpty().isNumeric(),
                    body('calories').notEmpty().isNumeric(),
@@ -26,9 +28,10 @@ productRouter.post('/',
                    body('image').notEmpty(),
                    body('category').notEmpty(),
                    productController.createOne)
-productRouter.put('/:id', productController.updateOne)
-productRouter.delete('/:id', productController.deleteOne)
+productRouter.put('/:id', authMiddleware, productController.updateOne)
+productRouter.delete('/:id', authMiddleware, productController.deleteOne)
 productRouter.post('/bulk-delete',
+                   authMiddleware,
                    body('ids').isArray(),
                    productController.deleteMany)
 

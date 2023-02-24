@@ -17,10 +17,11 @@ orderRouter.post('/',
                  body('moneyAmount').isNumeric(),
                  body('items').isArray(),
                  orderController.createOne)
-orderRouter.put('/status/:id', orderController.changeStatus)
-orderRouter.delete('/item/:itemId/:orderId', orderController.deleteOneItem)
-orderRouter.delete('/:id', orderController.deleteOne)
+orderRouter.put('/status/:id', authMiddleware, orderController.changeStatus)
+orderRouter.delete('/item/:itemId/:orderId', authMiddleware, orderController.deleteOneItem)
+orderRouter.delete('/:id', authMiddleware, orderController.deleteOne)
 orderRouter.post('/bulk-delete',
+                 authMiddleware,
                  body('ids').isArray(),
                  orderController.deleteMany)
 

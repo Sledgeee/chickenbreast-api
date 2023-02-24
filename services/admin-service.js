@@ -50,15 +50,16 @@ class AdminService {
             if (profilePhotos.total_count > 0) {
                 userPhoto = await bot.telegram.getFileLink(profilePhotos.photos[0][0].file_id)
             }
-            const tokens = tokenService.generateTokens({ userId, username, userPhoto })
-            const admin = await AdminModel.findOne({ userId, username })
-            await tokenService.saveToken(admin._id, tokens.refreshToken)
+            const { _id, role } = await AdminModel.findOne({ userId, username })
+            const tokens = tokenService.generateTokens({ userId, username, userPhoto, role })
+            await tokenService.saveToken(_id, tokens.refreshToken)
             return {
                 success: true,
                 admin: {
                     userId,
                     username,
-                    pic: userPhoto
+                    pic: userPhoto,
+                    role
                 },
                 tokens
             }
@@ -87,14 +88,16 @@ class AdminService {
             if (profilePhotos.total_count > 0) {
                 userPhoto = await bot.telegram.getFileLink(profilePhotos.photos[0][0].file_id)
             }
-            const tokens = tokenService.generateTokens({ userId, username, userPhoto })
+            const { role } = await AdminModel.findOne({ userId })
+            const tokens = tokenService.generateTokens({ userId, username, userPhoto, role })
             await tokenService.saveToken(hash, tokens.refreshToken)
             return {
                 success: true,
                 admin: {
                     userId,
                     username,
-                    pic: userPhoto
+                    pic: userPhoto,
+                    role
                 },
                 tokens
             }
@@ -115,15 +118,15 @@ class AdminService {
         if (!adminData || !tokenFromDb) {
             throw ApiError.UnauthorizedError()
         }
-        const { _id, userId, username } = await AdminModel.findOne({ userId: adminData.userId })
+        const { _id, userId, username, role } = await AdminModel.findOne({ userId: adminData.userId })
         let userPhoto = "/assets/images/avatars/avatar_default.jpg"
         const profilePhotos = await bot.telegram.getUserProfilePhotos(userId)
         if (profilePhotos.total_count > 0) {
             userPhoto = await bot.telegram.getFileLink(profilePhotos.photos[0][0].file_id)
         }
-        const tokens = tokenService.generateTokens({ userId, username, userPhoto })
+        const tokens = tokenService.generateTokens({ userId, username, userPhoto, role })
         await tokenService.saveToken(_id, tokens.refreshToken)
-        return { ...tokens, admin: { userId, username, pic: userPhoto } }
+        return { ...tokens, admin: { userId, username, pic: userPhoto, role } }
     }
 
     async hasRights(userId) {

@@ -24,6 +24,9 @@ class AdminController {
 
     async deleteOne(req, res, next) {
         try {
+            if (req.admin.role !== "Super") {
+                return next(ApiError.PermissionDenied())
+            }
             const { id } = req.params
             const result = await adminService.deleteOne(id)
             return res.send(result)
@@ -34,6 +37,9 @@ class AdminController {
 
     async deleteMany(req, res, next) {
         try {
+            if (req.admin.role !== "Super") {
+                return next(ApiError.PermissionDenied())
+            }
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation error', errors.array()))
