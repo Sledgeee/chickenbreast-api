@@ -48,6 +48,16 @@ class OrderController {
         }
     }
 
+    async deleteOneItem(req, res, next) {
+        try {
+            const { itemId, orderId } = req.params
+            const result = await orderService.deleteOneItem(itemId, orderId)
+            res.send(result)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async deleteOne(req, res, next) {
         try {
             const { id } = req.params

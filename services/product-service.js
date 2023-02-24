@@ -22,7 +22,7 @@ class ProductService {
     }
 
     async deleteMany(ids) {
-        return (await ProductModel.deleteMany({ id: { $in: { ids } } }))
+        return (await ProductModel.deleteMany({ _id: { $in: ids}}))
     }
 }
 

@@ -17,12 +17,24 @@ class OrderService {
         return (await OrderModel.updateOne({ _id: id }, { $set: { status: 'Відмінене' } }))
     }
 
+    async deleteOneItem(itemId, orderId) {
+        const order = await OrderModel.findById(orderId)
+        order.items.pull({ _id: itemId })
+        order.productsQuantity = 0
+        order.moneyAmount = 0
+        order.items.forEach(value => {
+            order.productsQuantity += value.quantity
+            order.moneyAmount += value.totalSum
+        })
+        return await order.save()
+    }
+
     async deleteOne(id) {
         return (await OrderModel.deleteOne({ _id: id }))
     }
 
     async deleteMany(ids) {
-        return (await OrderModel.deleteMany({ id: { $in: { ids } } }))
+        return (await OrderModel.deleteMany({ _id: { $in: ids}}))
     }
 }
 

@@ -14,7 +14,7 @@ class ContactService {
     }
 
     async deleteManyFeedbacks(ids) {
-        return (await FeedbackModel.deleteMany({ id: { $in: { ids } } }))
+        return (await FeedbackModel.deleteMany({ _id: { $in: ids}}))
     }
 }
 

@@ -18,7 +18,7 @@ class CategoryService {
     }
 
     async deleteMany(ids) {
-        return (await CategoryModel.deleteMany({ id: { $in: { ids } } }))
+        return (await CategoryModel.deleteMany({ _id: { $in: ids}}))
     }
 }
 

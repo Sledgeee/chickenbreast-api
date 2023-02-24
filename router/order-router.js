@@ -18,6 +18,7 @@ orderRouter.post('/',
                  body('items').isArray(),
                  orderController.createOne)
 orderRouter.put('/cancel/:id', orderController.cancelOne)
+orderRouter.delete('/item/:itemId/:orderId', orderController.deleteOneItem)
 orderRouter.delete('/:id', orderController.deleteOne)
 orderRouter.post('/bulk-delete',
                  body('ids').isArray(),
