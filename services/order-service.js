@@ -14,7 +14,7 @@ class OrderService {
     }
 
     async cancelOne(id) {
-        return (await OrderModel.updateOne({ _id: id }, { $set: { status: 'Відмінене' } }))
+        return (await OrderModel.updateOne({ _id: id }, { $set: { status: 'Скасоване' } }))
     }
 
     async deleteOneItem(itemId, orderId) {
