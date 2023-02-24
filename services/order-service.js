@@ -2,7 +2,7 @@ const OrderModel = require('../models/order-model')
 
 class OrderService {
     async getAll() {
-        return (await OrderModel.find({}))
+        return (await OrderModel.find({}).sort({ createdAt: -1 }))
     }
 
     async getOne(id) {
@@ -13,8 +13,8 @@ class OrderService {
         return (await OrderModel.create(body))
     }
 
-    async cancelOne(id) {
-        return (await OrderModel.updateOne({ _id: id }, { $set: { status: 'Скасоване' } }))
+    async changeStatus(id, status) {
+        return (await OrderModel.updateOne({ _id: id }, { $set: { status } }))
     }
 
     async deleteOneItem(itemId, orderId) {

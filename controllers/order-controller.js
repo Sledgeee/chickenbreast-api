@@ -38,10 +38,11 @@ class OrderController {
         }
     }
 
-    async cancelOne(req, res, next) {
+    async changeStatus(req, res, next) {
         try {
             const { id } = req.params
-            const result = await orderService.cancelOne(id)
+            const { status } = req.body
+            const result = await orderService.changeStatus(id, status)
             return res.send(result)
         } catch (e) {
             next(e)
