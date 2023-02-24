@@ -21,7 +21,10 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3002', 'https://chickenbreast.pp.ua', 'https://chickenbot-1-h5237689.deta.app']
+    origin: ['http://localhost:3000', 'http://localhost:3002',
+             'https://chickenbreast.pp.ua', 'https://chickenbreast-front.vercel.app',
+             'https://chickenbot-1-h5237689.deta.app',
+             'https://panel.chickenbreast.pp.ua', 'https://chickenbreast-admin.vercel.app']
 }))
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/auth/', authRouter)
