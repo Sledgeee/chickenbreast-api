@@ -32,7 +32,7 @@ class AuthController {
             const { id, otp } = req.body
             const data = await adminService.checkOtp(id, otp)
             if (data.success) {
-                res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+                res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "none", secure: 'true' })
             }
             return res.json(data)
         } catch (e) {
@@ -45,7 +45,7 @@ class AuthController {
             const { userId, username, hash, otp, isMagic } = req.body
             const data = await adminService.magicLogin(userId, username, hash, otp, isMagic)
             if (data.success) {
-                res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+                res.cookie('refreshToken', data.tokens.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "none", secure: 'true' })
             }
             return res.json(data)
         } catch (e) {
@@ -68,7 +68,7 @@ class AuthController {
         try {
             const { refreshToken } = req.cookies
             const data = await adminService.refresh(refreshToken)
-            res.cookie('refreshToken', data.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', data.refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "none", secure: 'true' })
             return res.json(data)
         } catch (e) {
             next(e)
