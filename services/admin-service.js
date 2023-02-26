@@ -20,7 +20,7 @@ class AdminService {
     }
 
     async login(username) {
-        if (!username) return { success: false }
+        if (!username) return { accepted: false }
         const admin = await AdminModel.findOne({ username })
         if (admin) {
             await LoginAttemptModel.deleteMany({ userId: admin.userId })
