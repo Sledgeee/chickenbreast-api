@@ -31,7 +31,7 @@ class AdminService {
                 otp,
                 isMagic: false
             })
-            new Promise(() => bot.telegram.sendMessage(admin.userId, String(otp))).catch(e => console.log(e))
+            await bot.telegram.sendMessage(admin.userId, String(otp))
             return { accepted: true, attemptId: loginAttempt.id }
         }
         return { accepted: false }
